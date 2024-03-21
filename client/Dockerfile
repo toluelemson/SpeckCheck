@@ -1,7 +1,7 @@
 # Stage 1: Build the React application
 FROM node:16 as build
 
-ARG VITE_API_BASE_URL
+ARG BASE_URL
 
 WORKDIR /app
 
@@ -11,7 +11,7 @@ RUN npm install
 
 COPY . ./
 
-RUN echo "VITE_API_BASE_URL=${VITE_API_BASE_URL}" > .env.local
+RUN echo "BASE_URL=${BASE_URL}" > .env.local
 
 RUN npm run build
 
