@@ -5,3 +5,16 @@
 .borderless-input {
   outline: none;
 }
+
+/* components/Calendar.css */
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+}
+
+.day {
+  border: 1px solid #ccc;
+  padding: 5px;
+  text-align: center;
+}

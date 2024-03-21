@@ -1,3 +1,4 @@
+import useTheme from '@/src/context/themeContext/useTheme';
 import React, { useState } from 'react';
 
 type ToggleProps = {
@@ -6,15 +7,19 @@ type ToggleProps = {
 
 const Toggle: React.FC<ToggleProps> = ({ onToggle }) => {
 	const [isChecked, setIsChecked] = useState(false);
+  const {theme, setTheme} = useTheme();
+
 
 	const handleToggle = () => {
-        const newState = !isChecked;
-        
+    const newState = !isChecked;    
+    setTheme(!theme);
 		setIsChecked(newState);
 		if (onToggle) {
 			onToggle(newState);
 		}
 	};
+
+  // console.log(theme);
 
 	return (
     <label
