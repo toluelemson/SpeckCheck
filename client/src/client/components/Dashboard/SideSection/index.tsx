@@ -10,39 +10,43 @@ import {
 } from "@heathmont/moon-icons-tw";
 import Toggle from "@/src/shared/Toggle/Toggle";
 import { useLink } from "@/src/hooks/useLink";
+import useTheme from "@/src/context/themeContext/useTheme";
 
 const SideSection = () => {
   const { link, handleClick } = useLink("Dashboard");
+  const { theme, colorTheme } = useTheme();
+
+  // console.log(colorTheme);
 
   return (
-    <div className="flex flex-col bg-white h-screen w-full border-r sticky top-0">
+    <div
+      className={`flex flex-col h-screen w-full border-r sticky top-0 ${colorTheme.bgColor}`}
+    >
       <div className="pl-6 py-5">
         <Link href="#">
           <p className="text-2xl font-bold text-green-500">SpeckCheck</p>
         </Link>
       </div>
 
-      <hr />
+      <hr className={colorTheme.border} />
 
       <div className="relative pl-2 py-6">
-        <p className="text-black font-bold ml-4">MENU</p>
+        <p className={`font-bold ml-4 ${colorTheme.textColor}`}>MENU</p>
         <div className="flex flex-col items-start justify-start space-y-3 mt-5 pr-6">
           {ROUTE_DATA.map((value, index) => (
             <Link
               href="#"
               onClick={() => handleClick(value.title)}
-              className={`flex items-center justify-start py-2 w-full hover:bg-gray-200 hover:rounded-lg hover:transition hover:transform hover:duration-150 hover:translate-x-2 space-x-3 ${
+              className={`flex items-center justify-start py-2 w-full hover:rounded-lg hover:transition hover:transform hover:duration-150 hover:translate-x-2 space-x-3 ${
                 value.title === link
-                  ? "text-green-500 bg-gray-200 rounded-lg font-bold"
-                  : "text-black font-semibold"
+                  ? "text-green-500 bg-gray-200 rounded-lg font-bold shadow-lg"
+                  : `${colorTheme.textColor} font-semibold`
               }`}
               key={index}
             >
               <div
                 className={`ml-4 border rounded-md ${
-                  value.title === link
-                    ? "border-green-600"
-                    : "border-black"
+                  value.title === link ? "border-green-600" : "border-black"
                 }`}
               >
                 <value.icon
@@ -51,7 +55,7 @@ const SideSection = () => {
                   color={
                     value.title === link
                       ? "text-blue-600 font-bold"
-                      : "text-black font-semibold"
+                      : `${colorTheme.textColor} font-semibold`
                   }
                 />
               </div>
@@ -61,13 +65,17 @@ const SideSection = () => {
         </div>
       </div>
 
-      <hr />
+      <hr className={colorTheme.border} />
 
       <div className="flex px-6 py-5 items-center justify-between w-full">
-        <p className="text-md font-bold text-black">PROJECTS</p>
+        <p className={`text-md font-bold ${colorTheme.textColor}`}>PROJECTS</p>
 
         <Link href="#">
-          <ControlsPlus height={25} width={25} />
+          <ControlsPlus
+            height={25}
+            width={25}
+            className={colorTheme.textColor}
+          />
         </Link>
       </div>
 
@@ -75,17 +83,29 @@ const SideSection = () => {
         <div className="w-full flex flex-col space-y-4 bot">
           <div className="flex px-6">
             <Link href="#" className="flex items-center  space-x-3">
-              <GenericSettings height={25} width={25} />
-              <p className="text-black font-semibold">Settings</p>
+              <GenericSettings
+                height={25}
+                width={25}
+                className={colorTheme.textColor}
+              />
+              <p className={`${colorTheme.textColor} font-semibold`}>
+                Settings
+              </p>
             </Link>
           </div>
 
-          <hr />
+          <hr className={colorTheme.border} />
 
           <div className="flex items-center justify-between px-6 w-[270px]">
             <Link href="#" className="flex items-center  space-x-3 w-full">
-              <OtherMoon height={25} width={25} />
-              <p className="text-black font-semibold">Dark Mode</p>
+              <OtherMoon
+                height={25}
+                width={25}
+                className={colorTheme.textColor}
+              />
+              <p className={`${colorTheme.textColor} font-semibold`}>
+                Dark Mode
+              </p>
             </Link>
             <Toggle />
           </div>

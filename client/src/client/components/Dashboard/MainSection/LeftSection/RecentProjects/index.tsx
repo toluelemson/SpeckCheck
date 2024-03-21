@@ -1,35 +1,36 @@
-import React from 'react';
-import { Other3DotsHorizontal } from '@heathmont/moon-icons-tw';
-import Card from './Card';
-import { PROJECTS_DATA } from '../../Constant/data';
-import Link from 'next/link';
+import React from "react";
+import Link from "next/link";
+import { Other3DotsHorizontal } from "@heathmont/moon-icons-tw";
+import Card from "./Card";
+import { PROJECTS_DATA } from "../../Constant/data";
+import useTheme from "@/src/context/themeContext/useTheme";
 
 const RecentProjects = () => {
-	return (
-		<div className='bg-white p-4 rounded-lg space-y-5'>
-			<div className='flex items-center justify-between'>
-				<p className='font-bold text-black'>Recent Projects</p>
-				<Other3DotsHorizontal
-					width={35}
-					height={25}
-				/>
-			</div>
+  const { colorTheme } = useTheme();
+  return (
+    <div className={`${colorTheme.bgColor} p-4 rounded-lg space-y-5 shadow-lg`}>
+      <div className="flex items-center justify-between">
+        <p className={`font-bold ${colorTheme.textColor}`}>Recent Projects</p>
+        <Other3DotsHorizontal
+          width={35}
+          height={25}
+          className={colorTheme.textColor}
+        />
+      </div>
 
-			<hr />
+      <hr className={colorTheme.border} />
 
-			<div className='flex flex-row items-center justify-between'>
-				{PROJECTS_DATA.map((value, index) => (
-					<Link
-						href='#'
-						key={index}>
-						<div>
-							<Card {...value} />
-						</div>
-					</Link>
-				))}
-			</div>
-		</div>
-	);
+      <div className="flex flex-row items-center justify-between space-x-2">
+        {PROJECTS_DATA.map((value, index) => (
+          <Link href="#" key={index}>
+            <div>
+              <Card {...value} />
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default RecentProjects;
