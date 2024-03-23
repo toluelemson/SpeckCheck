@@ -5,7 +5,7 @@ export default function Home() {
 	return (
 		<>
 			<Head>
-				<title>Mentor Dashboard</title>
+				<title>SpeckCheck</title>
 				<meta
 					name='description'
 					content='Mentor Dashboard'

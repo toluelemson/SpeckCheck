@@ -75,7 +75,7 @@ const Card = ({ text, title, pic }: Props) => {
 
   return (
     <>
-      {isClick ? (
+      {!isClick ? (
         <div
           onClick={() => setIsClick(!isClick)}
           className={`flex items-center justify-between px-4 py-3 text-xs ${colorTheme.bgColor} rounded-xl font-bold shadow-lg`}

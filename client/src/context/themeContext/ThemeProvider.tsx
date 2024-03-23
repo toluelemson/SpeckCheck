@@ -8,7 +8,7 @@ type ThemeProviderProps = {
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({
   children,
 }: ThemeProviderProps) => {
-  const [theme, setTheme] = useState(false);
+  const [theme, setTheme] = useState(true);
 
   useEffect(() => {
     const getThemeStatusFromLocalStorage = JSON.parse(

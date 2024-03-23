@@ -9,7 +9,7 @@ const TaskToday = () => {
 		<div>
 			<div className='flex items-center justify-between my-6'>
 				<p className='font-bold '>
-					Task Today <span className='font-thin'>(10)</span>
+					{`Today's Review`} <span className='font-thin'>(10)</span>
 				</p>
 
 				<Link href='#'>
