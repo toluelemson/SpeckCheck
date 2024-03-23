@@ -10,7 +10,7 @@ const RecentProjects = () => {
   return (
     <div className={`${colorTheme.bgColor} p-4 rounded-lg space-y-5 shadow-lg`}>
       <div className="flex items-center justify-between">
-        <p className={`font-bold ${colorTheme.textColor}`}>Recent Projects</p>
+        <p className={`font-bold ${colorTheme.textColor}`}>Recent Reviews</p>
         <Other3DotsHorizontal
           width={35}
           height={25}

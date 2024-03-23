@@ -16,7 +16,6 @@ const SideSection = () => {
   const { link, handleClick } = useLink("Dashboard");
   const { theme, colorTheme } = useTheme();
 
-  // console.log(colorTheme);
 
   return (
     <div
@@ -68,7 +67,7 @@ const SideSection = () => {
       <hr className={colorTheme.border} />
 
       <div className="flex px-6 py-5 items-center justify-between w-full">
-        <p className={`text-md font-bold ${colorTheme.textColor}`}>PROJECTS</p>
+        <p className={`text-md font-bold ${colorTheme.textColor}`}>REVIEWS</p>
 
         <Link href="#">
           <ControlsPlus
