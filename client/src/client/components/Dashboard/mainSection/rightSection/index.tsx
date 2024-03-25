@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import MessageSection from "./MessageSection";
+import MessageSection from "./messageSection";
 import CalendarComponent from "./Calender";
 import Calendar from "./Calender";
 

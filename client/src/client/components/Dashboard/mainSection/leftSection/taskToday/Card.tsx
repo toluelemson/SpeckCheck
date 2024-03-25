@@ -10,12 +10,12 @@ import {
   FilesCopy,
 } from "@heathmont/moon-icons-tw";
 import Link from "next/link";
-import Fb from "@/src/client/components/Svg/Fb";
-import Twitter from "@/src/client/components/Svg/Twitter-x";
-import Whatsapp from "@/src/client/components/Svg/Whatsapp";
-import Clipboard from "@/src/client/components/Svg/Clipboard";
+import Fb from "@/src/client/components/svg/Fb";
+import Twitter from "@/src/client/components/svg/Twitter-x";
+import Whatsapp from "@/src/client/components/svg/Whatsapp";
+import Clipboard from "@/src/client/components/svg/Clipboard";
 import { useVisibilityControl } from "@/src/hooks/useDeviceVisibility";
-import Modal from "@/src/shared/Modal/Modal";
+import Modal from "@/src/shared/modal/Modal";
 import { Textarea } from "@heathmont/moon-core-tw";
 import { DeleteContent } from "../components/DeleteContent";
 import { EditContent } from "../components/EditContent";

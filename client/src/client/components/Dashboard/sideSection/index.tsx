@@ -8,9 +8,10 @@ import {
   GenericSettings,
   OtherMoon,
 } from "@heathmont/moon-icons-tw";
-import Toggle from "@/src/shared/Toggle/Toggle";
+import Toggle from "@/src/shared/toggle/Toggle";
 import { useLink } from "@/src/hooks/useLink";
 import useTheme from "@/src/context/themeContext/useTheme";
+import { Button } from "@heathmont/moon-core-tw";
 
 const SideSection = () => {
   const { link, handleClick } = useLink("Dashboard");
@@ -64,11 +65,18 @@ const SideSection = () => {
         </div>
       </div>
 
+      <div className="pr-6 pl-2 pb-3">
+        <Link href="/dashboard/create-review">
+          <Button className="text-white font-bold bg-green-600 rounded-lg shadow-3xl py-2 px-5 w-full mt-3">
+            Create Review
+          </Button>
+        </Link>
+      </div>
+
       <hr className={colorTheme.border} />
 
       <div className="flex px-6 py-5 items-center justify-between w-full">
         <p className={`text-md font-bold ${colorTheme.textColor}`}>REVIEWS</p>
-
         <Link href="#">
           <ControlsPlus
             height={25}

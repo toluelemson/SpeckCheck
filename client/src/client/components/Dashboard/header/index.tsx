@@ -7,7 +7,7 @@ import {
 } from '@heathmont/moon-icons-tw';
 import Avatar from '../assets/Avatar.png';
 import Link from 'next/link';
-import DropdownItem from '@/src/shared/Dropdown/Dropdown';
+import DropdownItem from '@/src/shared/dropdown/Dropdown';
 import useTheme from '@/src/context/themeContext/useTheme';
 
 

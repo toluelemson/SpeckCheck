@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { Other3DotsHorizontal } from "@heathmont/moon-icons-tw";
 import Card from "./Card";
-import { PROJECTS_DATA } from "../../Constant/data";
+import { PROJECTS_DATA } from "../../constant/data";
 import useTheme from "@/src/context/themeContext/useTheme";
 
 const RecentProjects = () => {

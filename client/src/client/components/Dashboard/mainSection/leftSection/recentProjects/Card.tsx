@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image, { StaticImageData } from "next/image";
-import Tick from "@/src/client/components/Svg/Tick";
+import Tick from "@/src/client/components/svg/Tick";
 import { Progress } from "@heathmont/moon-core-tw";
 import { Other3DotsHorizontal } from "@heathmont/moon-icons-tw";
 
@@ -71,7 +71,6 @@ const Card = ({
         <p className="font-bold text-black">{title}</p>
         <Other3DotsHorizontal width={35} height={25} />
       </div>
-
 
       <div className="">
         <div className="flex items-center justify-between font-bold text-navyBlue">
