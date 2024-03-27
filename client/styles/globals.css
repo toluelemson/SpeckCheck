@@ -18,3 +18,25 @@
   padding: 5px;
   text-align: center;
 }
+
+
+
+/* dropdown component */
+.card-section {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.5s ease;
+}
+
+.card-section.open {
+    max-height: 200px; 
+}
+
+.card-section.closed {
+    max-height: 0;
+}
+
+.rotate {
+    transition: transform 0.5s ease;
+    transform: rotate(180deg);
+}

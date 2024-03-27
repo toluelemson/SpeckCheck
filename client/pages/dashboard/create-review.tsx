@@ -1,10 +1,8 @@
-import CreateReview from '@/src/client/components/Dashboard/screen/CreateReview';
-import React from 'react'
+import CreateReview from "@/src/client/components/screens/SelectedFeedbackCard";
+import React from "react";
 
 const CreateReviewPage = () => {
-  return (
-    <CreateReview/>
-  )
-}
+  return <CreateReview />;
+};
 
 export default CreateReviewPage;
