@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 import { Button, Textarea } from "@heathmont/moon-core-tw";
-import { useVisibilityControl } from "@/src/hooks/useDeviceVisibility";
+import { useVisibilityControl } from "@/src/hooks/useVisibilityControl";
 import Modal from "@/src/shared/modal/Modal";
 import {
   ArrowsUpdate,
@@ -10,13 +11,14 @@ import {
   SecurityVerified,
 } from "@heathmont/moon-icons-tw";
 import { truncateText } from "@/src/shared/utils/TruncateText";
-import Layout from "./Layout";
-import SideBarSection from "./ChooseTemplate/components/SideBarSection";
 import PagesHeader from "@/src/shared/header/PagesHeader";
-import Image from "next/image";
-import SuccessfullyCreated from "./ChooseTemplate/components/SuccessfullyCreated";
+import SuccessfullyCreated from "./chooseTemplate/components/SuccessfullyCreated";
+import { PROJECTS_DATA } from "../dashboard/mainSection/constant/data";
+import useCard from "@/src/context/cardContext/useCard";
 
 const SelectedFeedbackCard = () => {
+  const router = useRouter();
+  const { query } = router;
   const [email, setEmail] = useState(false);
   const [isAnonymous, setIsAnonymous] = useState(false);
   const { isOpen, setIsOpen, handleClick } = useVisibilityControl();
@@ -28,135 +30,17 @@ const SelectedFeedbackCard = () => {
   const handleEventListener = () => {
     setEmail(true);
   };
+  const { handleSharedCard } = useCard();
+  const selectedCard =
+    Array.isArray(PROJECTS_DATA) &&
+    PROJECTS_DATA.filter((card) => card.id === query.id)[0];
 
   return (
     <>
       <PagesHeader />
       <div className="flex items-center justify-center bg-gray-200 py-16">
         <div className="space-y-4 bg-white w-7/12">
-          <div className="px-12 pt-12 pb-5">
-            <p className="text-gray-700 font-bold text-3xl">
-              Personal Data Card
-            </p>
-            <p className="text-gray-500 font-semibold">
-              Enter details on the form below
-            </p>
-          </div>
-
-          <hr />
-
-          <div className="p-12 space-y-10">
-            <div className="space-y-2">
-              <label className="font-bold teext-gray-500">Name</label>
-              <div className="flex space-x-3 w-full">
-                <InputCard type="text" placeholder="Abu" label="First Name" />
-                <InputCard
-                  type="text"
-                  placeholder="Godwin"
-                  label="Second Name"
-                />
-              </div>
-            </div>
-
-            <div className="flex space-x-3 w-full">
-              <div className="space-y-2 w-full">
-                <label className="font-bold teext-gray-500">Phone Number</label>
-                <div className="flex space-x-3 w-full">
-                  <InputCard
-                    type="text"
-                    placeholder="(000) 000-0000"
-                    label="Phone Number"
-                  />
-                </div>
-              </div>
-              <div className="space-y-2 w-full">
-                <label className="font-bold teext-gray-500">Email</label>
-                <div className="flex space-x-3 w-full">
-                  <InputCard type="email" placeholder="Abu" label="Email" />
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <label className="font-bold teext-gray-500">Address</label>
-              <div className="space-y-3 w-full">
-                <InputCard
-                  type="text"
-                  placeholder="Abu"
-                  label="Street Address"
-                />
-                <InputCard
-                  type="text"
-                  placeholder="Godwin"
-                  label="Street Address Line1"
-                />
-              </div>
-            </div>
-
-            <div className="space-y-3">
-              <div className="flex space-x-3 w-full">
-                <div className="space-y-2 w-full">
-                  <div className="flex space-x-3 w-full">
-                    <InputCard type="text" label="City" />
-                  </div>
-                </div>
-                <div className="space-y-2 w-full">
-                  <div className="flex space-x-3 w-full">
-                    <InputCard type="email" label="State / Province" />
-                  </div>
-                </div>
-              </div>
-              <div className="flex space-x-3 w-full">
-                <div className="space-y-2 w-full">
-                  <div className="flex space-x-3 w-full">
-                    <InputCard type="text" label="Postal / Zip Code" />
-                  </div>
-                </div>
-                <div className="space-y-2 w-full">
-                  <div className="flex space-x-3 w-full">
-                    <InputCard
-                      type="email"
-                      placeholder="United Kingdom"
-                      label="Country"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-3">
-              <div className="flex w-full space-x-3">
-                <div className="space-y-2 w-full">
-                  <label className="font-bold teext-gray-500">Gender</label>
-                  <InputCard type="text" />
-                </div>
-                <div className="space-y-2 w-full">
-                  <label className="font-bold teext-gray-500">Birth Date</label>
-                  <div className="flex space-x-2">
-                    <InputCard type="email" placeholder="09" label="Date" />
-                    <InputCard type="email" placeholder="11" label="Country" />
-                    <InputCard
-                      type="email"
-                      placeholder="2024"
-                      label="Country"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <label className="font-bold teext-gray-500">Add Some Additional Info</label>
-              <Textarea className="h-44 width-full border"></Textarea>
-            </div>
-
-            <Button
-              onClick={handleClick}
-              className="text-white font-bold bg-green-600 rounded-lg shadow-3xl py-2 px-5 w-full mt-3"
-            >
-              Create Card
-            </Button>
-          </div>
+          {selectedCard && selectedCard.card(handleClick)}
 
           <Modal
             openModal={isOpen}
@@ -235,7 +119,10 @@ const SelectedFeedbackCard = () => {
                           </Button>
 
                           <Button
-                            onClick={handleSendFeedbackCard}
+                            onClick={() => {
+                              handleSendFeedbackCard(),
+                                handleSharedCard(selectedCard);
+                            }}
                             className="bg-green-600 text-white px-5 py-1 shadow-2xl"
                           >
                             SEND CARD
@@ -263,24 +150,3 @@ const SelectedFeedbackCard = () => {
 };
 
 export default SelectedFeedbackCard;
-
-const InputCard = ({
-  type,
-  label,
-  placeholder,
-}: {
-  type?: string;
-  label?: string;
-  placeholder?: string;
-}) => {
-  return (
-    <div className="w-full space-y-2">
-      <input
-        type={type}
-        placeholder={placeholder}
-        className="flex items-center border w-full h-10 p-2 borderless-input"
-      />
-      <p className="font-thin text-[12px] text-gray-600">{label}</p>
-    </div>
-  );
-};

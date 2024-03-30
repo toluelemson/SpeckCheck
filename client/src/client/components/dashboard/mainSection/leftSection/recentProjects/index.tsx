@@ -2,11 +2,12 @@ import React from "react";
 import Link from "next/link";
 import { Other3DotsHorizontal } from "@heathmont/moon-icons-tw";
 import Card from "./Card";
-import { PROJECTS_DATA } from "../../constant/data";
 import useTheme from "@/src/context/themeContext/useTheme";
+import useCard from "@/src/context/cardContext/useCard";
 
 const RecentProjects = () => {
   const { colorTheme } = useTheme();
+  const { card } = useCard();
   return (
     <div className={`${colorTheme.bgColor} p-4 rounded-lg space-y-5 shadow-lg`}>
       <div className="flex items-center justify-between">
@@ -21,7 +22,7 @@ const RecentProjects = () => {
       <hr className={colorTheme.border} />
 
       <div className="flex flex-row items-center justify-between space-x-2">
-        {PROJECTS_DATA.map((value, index) => (
+        {card.slice(0,3).map((value, index) => (
           <Link href="#" key={index}>
             <div>
               <Card {...value} />

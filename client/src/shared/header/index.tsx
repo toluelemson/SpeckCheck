@@ -1,38 +1,35 @@
-import React from 'react';
+import React from "react";
 import Link from "next/link";
-import Image from 'next/image';
+import Image from "next/image";
 import { useRouter } from "next/router";
-import {
-	GenericSearch,
-	NotificationsBell,
-} from '@heathmont/moon-icons-tw';
-import Avatar from '../../assest/Avatar.png';
-import DropdownItem from '@/src/shared/dropdown/Dropdown';
-import useTheme from '@/src/context/themeContext/useTheme';
-
+import { GenericSearch, NotificationsBell } from "@heathmont/moon-icons-tw";
+import Avatar from "../../assest/Avatar.png";
+import DropdownItem from "@/src/shared/dropdown/Dropdown";
+import useTheme from "@/src/context/themeContext/useTheme";
+import { UrlPathname } from "@/src/utils/UrlPathname";
 
 const Header = () => {
-	const {colorTheme} = useTheme();
+  const { colorTheme } = useTheme();
   const router = useRouter();
-  const {asPath} = router;
+  const { asPath } = router;
 
-  console.log(asPath);
+  const capitalizedPath = UrlPathname();
 
-
-  
   return (
     <div
       className={`flex items-center justify-between sticky top-0 z-50 p-6 h-[73px] ${colorTheme.bgColor} ${colorTheme.border}`}
     >
-      {asPath === "/dashboard" ? (
+      {asPath === "/dashboard" || asPath === "/inbox" ? (
         <Link href="#">
           <h1
             className={`text-black text-2xl font-bold ${colorTheme.textColor}`}
           >
-            Dashboard
+            {capitalizedPath}
           </h1>
         </Link>
-      ) : <div></div>}
+      ) : (
+        <div></div>
+      )}
 
       <div className="flex items-center space-x-5">
         <div

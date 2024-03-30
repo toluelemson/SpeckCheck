@@ -1,4 +1,4 @@
-import ChooseTemplate from "@/src/client/components/screens/ChooseTemplate/ChooseTemplate";
+import ChooseTemplate from "@/src/client/components/screens/chooseTemplate/ChooseTemplate";
 import React from "react";
 
 const ChooseTemplatePage = () => {

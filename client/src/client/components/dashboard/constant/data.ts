@@ -1,10 +1,10 @@
 import {
   SoftwarePlate,
-  SecurityVerified,
   GenericTrophy,
+  MailEnvelope,
 } from "@heathmont/moon-icons-tw";
 export const ROUTE_DATA = [
-  { icon: SoftwarePlate, title: "Dashboard", link: '/dashboard' },
-  { icon: SecurityVerified, title: "Speck", link: '#' },
-  { icon: GenericTrophy, title: "Usertab", link: '#' },
+  { icon: SoftwarePlate, title: "Dashboard", link: "/dashboard" },
+  { icon: MailEnvelope, title: "Inbox", link: "/inbox" },
+  { icon: GenericTrophy, title: "Usertab", link: "#" },
 ];

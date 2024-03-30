@@ -1,6 +1,4 @@
-import React, { useState } from "react";
-import Image from "next/image";
-import Logo from "./../assets/logo.png";
+import React from "react";
 import { ROUTE_DATA } from "../constant/data";
 import Link from "next/link";
 import {
@@ -12,10 +10,12 @@ import Toggle from "@/src/shared/toggle/Toggle";
 import { useLink } from "@/src/hooks/useLink";
 import useTheme from "@/src/context/themeContext/useTheme";
 import { Button } from "@heathmont/moon-core-tw";
+import { UrlPathname } from "@/src/utils/UrlPathname";
 
 const SideSection = () => {
-  const { link, handleClick } = useLink("Dashboard");
-  const { theme, colorTheme } = useTheme();
+  const { colorTheme } = useTheme();
+  const capitalizedPath = UrlPathname();
+  const { link, handleClick } = useLink(capitalizedPath);
 
 
   return (
@@ -23,7 +23,7 @@ const SideSection = () => {
       className={`flex flex-col h-screen w-full border-r sticky top-0 ${colorTheme.bgColor}`}
     >
       <div className="pl-6 py-5">
-        <Link href="#">
+        <Link href="/dashboard">
           <p className="text-2xl font-bold text-green-500">SpeckCheck</p>
         </Link>
       </div>
@@ -35,7 +35,7 @@ const SideSection = () => {
         <div className="flex flex-col items-start justify-start space-y-3 mt-5 pr-6">
           {ROUTE_DATA.map((value, index) => (
             <Link
-              href="#"
+              href={value.link}
               onClick={() => handleClick(value.title)}
               className={`flex items-center justify-start py-2 w-full hover:rounded-lg hover:transition hover:transform hover:duration-150 hover:translate-x-2 space-x-3 ${
                 value.title === link

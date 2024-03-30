@@ -2,9 +2,10 @@ import { ControlsChevronRight } from "@heathmont/moon-icons-tw";
 import Link from "next/link";
 import React from "react";
 import Card from "./Card";
-import { TASK_DATA } from "../../constant/data";
+import useCard from "@/src/context/cardContext/useCard";
 
 const TaskToday = () => {
+  const { card } = useCard();
   return (
     <div>
       <div className="flex items-center justify-between my-6">
@@ -21,12 +22,10 @@ const TaskToday = () => {
       </div>
 
       <div className="flex flex-col space-y-5">
-        {TASK_DATA.map((value, index) => (
-          <Link href="#" key={index}>
-            <div>
-              <Card {...value} />
-            </div>
-          </Link>
+        {card.map((value: any, index: number) => (
+          <div key={index}>
+            <Card {...value} />
+          </div>
         ))}
       </div>
     </div>

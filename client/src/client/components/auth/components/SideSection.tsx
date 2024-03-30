@@ -7,7 +7,7 @@ import Pagination from './Pagination';
 
 const SideSection = () => {
 	return (
-		<div className='w-1/2 lg:block hidden bg-green-500 p-12'>
+		<div className='w-1/2 lg:block hidden bg-green-500 p-12 h-full'>
 			<p className='text-white font-bold text-2xl'>SpeckCheck</p>
 
 			<div className='relative items-center justify-between p-12'>

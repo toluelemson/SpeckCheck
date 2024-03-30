@@ -14,7 +14,7 @@ import Fb from "@/src/client/components/svg/Fb";
 import Twitter from "@/src/client/components/svg/Twitter-x";
 import Whatsapp from "@/src/client/components/svg/Whatsapp";
 import Clipboard from "@/src/client/components/svg/Clipboard";
-import { useVisibilityControl } from "@/src/hooks/useDeviceVisibility";
+import { useVisibilityControl } from "@/src/hooks/useVisibilityControl";
 import Modal from "@/src/shared/modal/Modal";
 import { Textarea } from "@heathmont/moon-core-tw";
 import { DeleteContent } from "../components/DeleteContent";
@@ -27,12 +27,13 @@ import {
 } from "react-share";
 
 type Props = {
-  text: string;
+  id: string;
   title: string;
+  inbox: string;
   pic: StaticImageData;
 };
 
-const Card = ({ text, title, pic }: Props) => {
+const Card = ({ id, inbox, title, pic }: Props) => {
   const [link, setLink] = useState("http://localhost:5173/s/es4DS");
   const [isCopy, setIsCopy] = useState(false);
   const [isClick, setIsClick] = useState(false);
@@ -68,7 +69,6 @@ const Card = ({ text, title, pic }: Props) => {
       const timer = setTimeout(() => {
         setIsCopy(false);
       }, 2000);
-
       return () => clearTimeout(timer);
     }
   }, [isCopy]);
@@ -77,18 +77,28 @@ const Card = ({ text, title, pic }: Props) => {
     <>
       {!isClick ? (
         <div
-          onClick={() => setIsClick(!isClick)}
           className={`flex items-center justify-between px-4 py-3 text-xs ${colorTheme.bgColor} rounded-xl font-bold shadow-lg`}
         >
           <div className="flex space-x-1">
             <Checkbox text="" />
-            <p className={colorTheme.textColor}>{text}</p>
+            <p
+              onClick={() => setIsClick(!isClick)}
+              className={`${colorTheme.textColor} underline cursor-pointer`}
+            >
+              {title}
+            </p>
           </div>
 
           <div className="flex space-x-8">
-            <div className="flex items-center bg-yellow-100 px-2 rounded-xl">
-              <p className="text-yellow-400 font-semibold">{title}</p>
-            </div>
+            {/* <Link href={`/inbox/${id}`}> */}
+            <Link
+              href={`/inbox/${id}`}
+              className="flex items-center bg-yellow-100 px-2 rounded-xl"
+            >
+              <p className="text-yellow-500 font-semibold">{`Inbox: ${inbox}`}</p>
+            </Link>
+            {/* </Link> */}
+
             <div className="relative">
               <Image
                 src={pic}
@@ -111,6 +121,7 @@ const Card = ({ text, title, pic }: Props) => {
               width={30}
               height={25}
               className={colorTheme.textColor}
+              onClick={() => setIsClick(!isClick)}
             />
           </div>
         </div>
@@ -163,6 +174,12 @@ const Card = ({ text, title, pic }: Props) => {
                 color="red"
                 onClick={handleClick}
               />
+              <Other3DotsHorizontal
+                width={30}
+                height={25}
+                className={colorTheme.textColor}
+                onClick={() => setIsClick(!isClick)}
+              />
             </div>
           </div>
           <hr className={colorTheme.border} />
@@ -202,6 +219,7 @@ const Card = ({ text, title, pic }: Props) => {
             setOpenModal={setIsOpen}
             modalContent={
               <DeleteContent
+                id={id}
                 isClick={isClick}
                 setIsClick={setIsClick}
                 setIsOpen={setIsOpen}

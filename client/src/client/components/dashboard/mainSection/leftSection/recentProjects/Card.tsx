@@ -9,7 +9,7 @@ type Props = {
   progressColor: string;
   progressCount: string;
   pic: StaticImageData;
-  peopleCount: string;
+  inbox: string;
   tickCount: string;
   totalTickCount: string;
 };
@@ -20,7 +20,7 @@ const Card = ({
   progressColor,
   progressCount,
   pic,
-  peopleCount,
+  inbox,
   tickCount,
   totalTickCount,
 }: Props) => {
@@ -111,7 +111,7 @@ const Card = ({
           />
 
           <span className="absolute left-8 rounded-full border-white border-2 top-0 text-xs bg-gray-200 p-1">
-            +{peopleCount}
+            +{inbox}
           </span>
         </div>
       </div>

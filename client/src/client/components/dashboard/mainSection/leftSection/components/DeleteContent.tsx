@@ -1,4 +1,9 @@
-export const DeleteContent = ({ isClick, setIsClick, setIsOpen }: { isClick: boolean, setIsClick: Function, setIsOpen: Function }) => {
+import useCard from "@/src/context/cardContext/useCard";
+
+export const DeleteContent = ({ id, isClick, setIsClick, setIsOpen }: { id: string, isClick: boolean, setIsClick: Function, setIsOpen: Function }) => {
+
+  const { handleDelete } = useCard();
+  
   return (
     <div className="p-5">
       <p className="font-bold text-2xl">Confirm Deletion!</p>
@@ -8,7 +13,7 @@ export const DeleteContent = ({ isClick, setIsClick, setIsOpen }: { isClick: boo
       </p>
       <div className="flex items-center justify-end mt-8 rounded-lg space-x-2">
         <button
-          onClick={() => {setIsOpen(false); setIsClick(!isClick)}}
+          onClick={() => {setIsOpen(false); setIsClick(!isClick); handleDelete(id)}}
           className="font-bold bg-red-600 rounded-lg text-white text-sm py-2 px-3"
         >
           Yes, Delete
