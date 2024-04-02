@@ -1,7 +1,7 @@
 FROM maven:3.8.4-openjdk-17-slim AS build
 
-COPY ./pom.xml ./pom.xml
-COPY ./src ./src
+COPY FeedbackService/pom.xml ./pom.xml
+COPY FeedbackService/src ./src
 
 RUN mvn package -DskipTests
 
