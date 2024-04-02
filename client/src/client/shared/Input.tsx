@@ -15,7 +15,7 @@ type InputProps = {
   name: string;
 };
 
-const Input: React.FC<InputProps> = ({
+export const Input: React.FC<InputProps> = ({
   icon: IconComponent,
   inputType,
   placeHolder,
@@ -79,4 +79,4 @@ const Input: React.FC<InputProps> = ({
   );
 };
 
-export default Input;
+

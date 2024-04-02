@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Image, { StaticImageData } from "next/image";
-import Checkbox from "@/src/shared/Checkbox";
+import Checkbox from "@/src/client/shared/Checkbox";
 import {
   GenericShareIos,
   GenericCheckRounded,
@@ -15,7 +15,7 @@ import Twitter from "@/src/client/components/svg/Twitter-x";
 import Whatsapp from "@/src/client/components/svg/Whatsapp";
 import Clipboard from "@/src/client/components/svg/Clipboard";
 import { useVisibilityControl } from "@/src/hooks/useVisibilityControl";
-import Modal from "@/src/shared/modal/Modal";
+import Modal from "@/src/client/shared/modal/Modal";
 import { Textarea } from "@heathmont/moon-core-tw";
 import { DeleteContent } from "../components/DeleteContent";
 import { EditContent } from "../components/EditContent";
@@ -25,6 +25,7 @@ import {
   TwitterShareButton,
   WhatsappShareButton,
 } from "react-share";
+import HandleCopyText from "@/src/utils/HandleCopyText";
 
 type Props = {
   id: string;
@@ -34,8 +35,8 @@ type Props = {
 };
 
 const Card = ({ id, inbox, title, pic }: Props) => {
-  const [link, setLink] = useState("http://localhost:5173/s/es4DS");
-  const [isCopy, setIsCopy] = useState(false);
+  // const [link, setLink] = useState(`chooseTemplate/${id}`);
+  // const [isCopy, setIsCopy] = useState(false);
   const [isClick, setIsClick] = useState(false);
   const { isOpen, setIsOpen, handleClick } = useVisibilityControl();
   const {
@@ -45,23 +46,12 @@ const Card = ({ id, inbox, title, pic }: Props) => {
   } = useVisibilityControl();
   const { theme, colorTheme } = useTheme();
 
-  const handleCopyCode = () => {
-    if (link.length > 1) {
-      setIsCopy(true);
-      setLink("http://localhost:5173/s/es4DS");
-      navigator.clipboard
-        .writeText(link)
-        .then(() => {
-          console.log("Ticket code copied to clipboard");
-        })
-        .catch((error) => {
-          console.error("Failed to copy ticket code: ", error);
-        });
-    }
-  };
+  const { link, setLink, isCopy, setIsCopy, handleCopyCode } = HandleCopyText(
+    `http://localhost:3000/chooseTemplate/${id}`
+  );
 
   const handleLinkClick = () => {
-    window.open("http://localhost:5173/s/es4DS", "_blank");
+    window.open(`chooseTemplate/${id}`, "_blank");
   };
 
   useEffect(() => {
@@ -71,7 +61,7 @@ const Card = ({ id, inbox, title, pic }: Props) => {
       }, 2000);
       return () => clearTimeout(timer);
     }
-  }, [isCopy]);
+  }, [isCopy, setIsClick, setIsCopy]);
 
   return (
     <>
@@ -90,14 +80,12 @@ const Card = ({ id, inbox, title, pic }: Props) => {
           </div>
 
           <div className="flex space-x-8">
-            {/* <Link href={`/inbox/${id}`}> */}
             <Link
               href={`/inbox/${id}`}
               className="flex items-center bg-yellow-100 px-2 rounded-xl"
             >
               <p className="text-yellow-500 font-semibold">{`Inbox: ${inbox}`}</p>
             </Link>
-            {/* </Link> */}
 
             <div className="relative">
               <Image
@@ -131,13 +119,13 @@ const Card = ({ id, inbox, title, pic }: Props) => {
         >
           <div className="flex items-center justify-between px-4">
             <div className="flex items-center space-x-2 rounded-full">
-              <p onClick={handleLinkClick} className="text-green-500 underline">
-                http://localhost:5173/s/es4DS
+              <p onClick={handleLinkClick} className="text-green-500 cursor-pointer underline">
+                {`http:localhost:3000/chooseTemplate/${id}`}
               </p>
 
               {!isCopy ? (
                 <div
-                  className="flex items-center"
+                  className="flex items-center cursor-pointer"
                   onClick={() => {
                     handleCopyCode();
                     setIsCopy(!isCopy);
@@ -151,7 +139,7 @@ const Card = ({ id, inbox, title, pic }: Props) => {
                   <p className={`${colorTheme.textColor} text-sm`}>Copy Link</p>
                 </div>
               ) : (
-                <div className="flex items-center">
+                <div className="flex items-center cursor-pointer">
                   <GenericCheckRounded
                     height={30}
                     width={30}

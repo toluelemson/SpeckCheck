@@ -6,7 +6,7 @@ import {
   GenericSettings,
   OtherMoon,
 } from "@heathmont/moon-icons-tw";
-import Toggle from "@/src/shared/toggle/Toggle";
+import Toggle from "@/src/client/shared/toggle/Toggle";
 import { useLink } from "@/src/hooks/useLink";
 import useTheme from "@/src/context/themeContext/useTheme";
 import { Button } from "@heathmont/moon-core-tw";
@@ -16,7 +16,6 @@ const SideSection = () => {
   const { colorTheme } = useTheme();
   const capitalizedPath = UrlPathname();
   const { link, handleClick } = useLink(capitalizedPath);
-
 
   return (
     <div

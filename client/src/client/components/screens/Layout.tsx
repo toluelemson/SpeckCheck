@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "@/src/shared/header";
+import Header from "@/src/client/shared/header";
 
 const Layout = ({
   sideBarSection,

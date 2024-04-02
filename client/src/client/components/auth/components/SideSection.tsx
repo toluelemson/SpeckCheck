@@ -15,9 +15,9 @@ const SideSection = () => {
 					src={Background}
 					alt='illustration alt'
 				/>
-				<Image
-					src={Background}
-					alt='illustration alt'
+				<Image                   
+					src={Background}   
+					alt='illustration alt'  
 					className='absolute top-6 right-8 p-20'
 				/>
 				<div>

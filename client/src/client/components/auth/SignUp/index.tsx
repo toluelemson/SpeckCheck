@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import SocialLogin from "../components/SocialHandle";
 import OrContinueWith from "../components/OrContinueWith";
 import SideSection from "../components/SideSection";
-import Input from "@/src/shared/Input";
+import Input from "@/src/client/shared/Input";
 import {
   GenericUser,
   MailEnvelope,
@@ -40,7 +40,7 @@ const SignUp = () => {
             <div className="flex flex-col">
               <h1 className="font-bold mb-2 text-xl">Sign Up for an Account</h1>
             </div>
-            <Form className="space-y-4 mt-7">        
+            <Form className="space-y-4 mt-7">
               <Input
                 name="username"
                 placeHolder="Username"

@@ -4,11 +4,11 @@ import * as Yup from "yup";
 import { MailEnvelope, SecurityPassword } from "@heathmont/moon-icons-tw";
 import OrContinueWith from "../components/OrContinueWith";
 import Link from "next/link";
-import Input from "@/src/shared/Input";
-import Checkbox from "@/src/shared/Checkbox";
+import Checkbox from "@/src/client/shared/Checkbox";
 import SideSection from "../components/SideSection";
 import SocialHandle from "../components/SocialHandle";
 import AuthButton from "../components/Button";
+import { Input } from "@/src/client/shared/Input";
 
 const Login = () => {
   const validationSchema = Yup.object().shape({

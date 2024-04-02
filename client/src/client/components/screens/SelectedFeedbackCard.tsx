@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Button, Textarea } from "@heathmont/moon-core-tw";
+import { Formik, Form, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { Button, Loader, Textarea } from "@heathmont/moon-core-tw";
 import { useVisibilityControl } from "@/src/hooks/useVisibilityControl";
-import Modal from "@/src/shared/modal/Modal";
+import Modal from "@/src/client/shared/modal/Modal";
 import {
   ArrowsUpdate,
   GenericLink,
@@ -10,30 +12,49 @@ import {
   SecurityLock,
   SecurityVerified,
 } from "@heathmont/moon-icons-tw";
-import { truncateText } from "@/src/shared/utils/TruncateText";
-import PagesHeader from "@/src/shared/header/PagesHeader";
+import { truncateText } from "@/src/client/shared/utils/TruncateText";
+import PagesHeader from "@/src/client/shared/header/PagesHeader";
 import SuccessfullyCreated from "./chooseTemplate/components/SuccessfullyCreated";
 import { PROJECTS_DATA } from "../dashboard/mainSection/constant/data";
 import useCard from "@/src/context/cardContext/useCard";
+import { useMutation } from "@tanstack/react-query";
+import { sendMail } from "@/src/helper/apis/mail/sendMail";
+import apiMessageHelper from "@/src/helper/apiMessageHelper";
+import HandleCopyText from "@/src/utils/HandleCopyText";
 
 const SelectedFeedbackCard = () => {
   const router = useRouter();
   const { query } = router;
+  const { handleSharedCard } = useCard();
   const [email, setEmail] = useState(false);
   const [isAnonymous, setIsAnonymous] = useState(false);
   const { isOpen, setIsOpen, handleClick } = useVisibilityControl();
-  const {
-    isOpen: isSend,
-    setIsOpen: setIsSend,
-    handleClick: handleSendFeedbackCard,
-  } = useVisibilityControl();
-  const handleEventListener = () => {
-    setEmail(true);
-  };
-  const { handleSharedCard } = useCard();
+  const { isOpen: isSend, setIsOpen: setIsSend } = useVisibilityControl();
   const selectedCard =
     Array.isArray(PROJECTS_DATA) &&
     PROJECTS_DATA.filter((card) => card.id === query.id)[0];
+
+  const validationSchema = Yup.object().shape({
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    text: Yup.string().required("Text is required"),
+  });
+  const { mutateAsync, isPending } = useMutation({ mutationFn: sendMail });
+
+  const { isCopy, link, setIsCopy, handleCopyCode } = HandleCopyText(
+    `http://localhost:3000/chooseTemplate/${
+      selectedCard ? selectedCard.id : ""
+    }`
+  );
+
+  useEffect(() => {
+    if (isCopy) {
+      const timer = setTimeout(() => {
+        setIsCopy(false);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [isCopy, setIsCopy]);
+
 
   return (
     <>
@@ -78,7 +99,7 @@ const SelectedFeedbackCard = () => {
                         <GenericLink height={30} width={30} className="ml-2" />
                         <div className="text-start px-2">
                           {truncateText(
-                            "https://www.jotform.com/inbox/240826703216048?st=VnF0SWRwQ1M4YmxVRGR1UXU5TnJDcXBIWWo0NW54TGdGeXcwNGhIUjdES3lhWlFiZjAyb25ZYU1palZuL0hHdUxkYy9uTXNxemJzcDhIZ1lCNmd4S2g2QTdiVXdDNW9VWXBXTTJiVHNtRkZOQTJPdkNlalhlb0RDZko4RTdYQXI=",
+                            `http:localhost:3000/chooseTemplate/${query.id}`,
                             42
                           )}
                         </div>
@@ -86,51 +107,119 @@ const SelectedFeedbackCard = () => {
                           <ArrowsUpdate height={30} width={30} />
                         </div>
                       </div>
-                      <button className="bg-green-600 text-white px-3 py-2 w-max font-bold rounded-lg">
-                        Copy Link
+                      <button
+                        onClick={handleCopyCode}
+                        className="bg-green-600 text-white px-3 w-36 py-2 font-bold rounded-lg"
+                      >
+                        {!isCopy ? "COPY LINK" : "COPIED!"}
                       </button>
                     </div>
                   </div>
 
                   <hr />
 
-                  <div className="flex flex-col pt-3 space-y-3">
-                    <p className="font-bold text-black">Invite by email</p>
-                    <div className="flex items-center space-x-2 border pl-1">
-                      <MailEnvelope color="green" height={35} width={35} />
-                      <p>To:</p>
-                      <input
-                        type="text"
-                        placeholder="Enter email address to send review by permission"
-                        onClick={handleEventListener}
-                        className="flex items-center w-full h-10 p-2 borderless-input"
-                      />
-                    </div>
+                  <Formik
+                    initialValues={{ email: "", text: "" }}
+                    validationSchema={validationSchema}
+                    onSubmit={(values, { setSubmitting }) => {
+                      const data = {
+                        from: "abu@godwin.com",
+                        to: values.email,
+                        subject: selectedCard ? selectedCard.title : "",
+                        text: values.text,
+                      };
 
-                    {email && (
-                      <>
-                        <Textarea className="h-44 w-full border"></Textarea>
-                        <div className="flex items-center justify-between">
-                          <Button
-                            onClick={() => setIsOpen(false)}
-                            className="text-black bg-gray-300 px-5 py-1 shadow-2xl"
-                          >
-                            CANCEL
-                          </Button>
-
-                          <Button
-                            onClick={() => {
-                              handleSendFeedbackCard(),
-                                handleSharedCard(selectedCard);
-                            }}
-                            className="bg-green-600 text-white px-5 py-1 shadow-2xl"
-                          >
-                            SEND CARD
-                          </Button>
+                      console.log(data);
+                      // form submission
+                      mutateAsync(data).then((res: any) => {
+                        apiMessageHelper({
+                          message: res?.message,
+                          statusCode: res?.statusCode,
+                          onSuccessCallback: () => {
+                            console.log(res);
+                            setSubmitting(true);
+                            // handleSendFeedbackCard();
+                            handleSharedCard(selectedCard);
+                            window.location.href = "/dashboard";
+                          },
+                          onFailureCallback() {
+                            setSubmitting(false);
+                          },
+                        });
+                      });
+                      console.log(values);
+                      setSubmitting(false);
+                    }}
+                  >
+                    {({
+                      values,
+                      errors,
+                      touched,
+                      handleChange,
+                      handleBlur,
+                      handleSubmit,
+                      isSubmitting,
+                    }) => (
+                      <Form className="flex flex-col pt-3 space-y-3">
+                        <p className="font-bold text-black">Invite by email</p>
+                        <div className="flex items-center space-x-2 border pl-1">
+                          <MailEnvelope color="green" height={35} width={35} />
+                          <p>To:</p>
+                          <input
+                            type="text"
+                            name="email"
+                            onClick={() => setEmail(true)}
+                            placeholder="Enter email address to send review by permission"
+                            value={values.email}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            className="flex items-center w-full h-10 p-2 borderless-input"
+                          />
                         </div>
-                      </>
+
+                        {email && (
+                          <>
+                            <ErrorMessage
+                              name="email"
+                              component="div"
+                              className="text-red-500"
+                            />{" "}
+                            <Textarea
+                              name="text"
+                              placeholder="Enter your feedback"
+                              value={values.text}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              className="h-44 w-full border"
+                            />
+                            <ErrorMessage
+                              name="text"
+                              component="div"
+                              className="text-red-500"
+                            />{" "}
+                            <div className="flex items-center justify-between">
+                              <Button
+                                onClick={() => setIsOpen(false)}
+                                className="text-black bg-gray-300 px-5 py-1 shadow-2xl"
+                              >
+                                CANCEL
+                              </Button>
+                              <Button
+                                type="submit"
+                                className="bg-green-600 text-white w-32  shadow-2xl"
+                              >
+                                {isPending ? (
+                                  <Loader size="xs" />
+                                ) : (
+                                  "SEND EMAIL"
+                                )}
+                              </Button>
+                            </div>
+                          </>
+                        )}
+                      </Form>
                     )}
-                  </div>
+                  </Formik>
                 </div>
               </div>
             }

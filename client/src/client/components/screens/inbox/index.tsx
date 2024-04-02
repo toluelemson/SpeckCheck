@@ -2,12 +2,10 @@ import React from "react";
 import Layout from "./../../dashboard/Layout";
 import { Other3DotsHorizontal } from "@heathmont/moon-icons-tw";
 import Image from "next/image";
-import Checkbox from "@/src/shared/Checkbox";
+import Checkbox from "@/src/client/shared/Checkbox";
 import useTheme from "@/src/context/themeContext/useTheme";
 import { PROJECTS_DATA } from "../../dashboard/mainSection/constant/data";
 import Link from "next/link";
-
-
 
 const Inbox = () => {
   const { theme, colorTheme } = useTheme();

@@ -1,10 +1,10 @@
-import PagesHeader from "@/src/shared/header/PagesHeader";
+import PagesHeader from "@/src/client/shared/header/PagesHeader";
 import { useLink } from "@/src/hooks/useLink";
 import React, { useState } from "react";
 import Email from "../../svg/Email";
 import Archive from "../../svg/Archive";
 import Trash from "../../svg/Trash";
-import SearchInput from "@/src/shared/search";
+import SearchInput from "@/src/client/shared/search";
 import Backarrow from "../../svg/Backarrow";
 import Comment from "../../svg/Comment";
 import { Button } from "@heathmont/moon-core-tw";

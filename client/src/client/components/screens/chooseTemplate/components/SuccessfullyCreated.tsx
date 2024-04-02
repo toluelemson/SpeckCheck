@@ -5,13 +5,13 @@ import Image from "next/image";
 
 const SuccessfullyCreated = () => {
   const router = useRouter();
-  useEffect(() => {
-    const redirectTimer = setTimeout(() => {
-      router.push("/dashboard");
-    }, 2000);
+  // useEffect(() => {
+  //   const redirectTimer = setTimeout(() => {
+  //     router.push("/dashboard");
+  //   }, 2000);
 
-    return () => clearTimeout(redirectTimer);
-  }, [router]);
+  //   return () => clearTimeout(redirectTimer);
+  // }, [router]);
 
   return (
     <div className="flex flex-col items-center justify-center pb-10 bg-white">

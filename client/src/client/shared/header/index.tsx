@@ -3,8 +3,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { GenericSearch, NotificationsBell } from "@heathmont/moon-icons-tw";
-import Avatar from "../../assest/Avatar.png";
-import DropdownItem from "@/src/shared/dropdown/Dropdown";
+import Avatar from "../../../assest/Avatar.png";
+import DropdownItem from "@/src/client/shared/dropdown/Dropdown";
 import useTheme from "@/src/context/themeContext/useTheme";
 import { UrlPathname } from "@/src/utils/UrlPathname";
 

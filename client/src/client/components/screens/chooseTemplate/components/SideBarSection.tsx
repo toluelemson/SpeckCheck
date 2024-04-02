@@ -4,9 +4,9 @@ import useTheme from "@/src/context/themeContext/useTheme";
 import {
   AccordionDropdown,
   RadioAccordionDropdown,
-} from "@/src/shared/accordion";
+} from "@/src/client/shared/accordion";
 import { SORT_DATA, TYPES } from "../constant/data";
-import SearchInput from "@/src/shared/search";
+import SearchInput from "@/src/client/shared/search";
 
 const SideBarSection = () => {
   const { colorTheme } = useTheme();

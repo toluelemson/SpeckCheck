@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import SideSection from "./sideSection";
 import MainSection from "./mainSection";
-import Header from "../../../shared/header";
+import Header from "../../shared/header";
 
 const Layout = ({ children }: { children: React.JSX.Element }) => {
   return (

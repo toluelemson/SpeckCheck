@@ -7,7 +7,7 @@ const PersonalDataCard = ({ handleClick }: { handleClick?: () => void }) => {
   return (
     <div>
       <div className="flex flex-col items-center justify-center px-12 pt-12 pb-5">
-        <p className="text-gray-700 font-bold text-3xl">Personal Data Card</p>
+        <p className="text-black font-bold text-3xl">Personal Data Card</p>
         <p className="text-gray-500 font-semibold">
           Enter details on the form below
         </p>

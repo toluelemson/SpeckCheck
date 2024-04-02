@@ -9,7 +9,7 @@ const FeedbackDataCard = ({ handleClick }: { handleClick?: () => void }) => {
   const handleOptionChange = (event: any) => {
     setSelectedOption(event.target.value);
     console.log(`Selected feedback type: ${event.target.value}`);
-    // You can add further actions here based on the selected radio button
+
   };
 
   return (

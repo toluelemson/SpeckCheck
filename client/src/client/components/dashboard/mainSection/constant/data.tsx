@@ -6,7 +6,7 @@ import Group from "../../../svg/Group";
 import TableCircle from "../../../svg/TableCircle";
 import Tick from "../../../svg/Tick";
 import pic from "../../assets/Avatar.png";
-import personalFeedbackImg from '../../assets/feedback.png';
+import personalFeedbackImg from '../../assets/personalCard.png';
 import classRegisImg from '../../assets/classRegistration.png';
 import AdviceCardImg from '../../assets/advicedata.png';
 import FeedbackCardImg from '../../assets/feedback.png';
