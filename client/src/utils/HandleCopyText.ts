@@ -7,6 +7,7 @@ function HandleCopyText(href: string) {
   const handleCopyCode = () => {
     if (link.length > 1) {
       setIsCopy(true);
+      setLink(`${href}`);
       navigator.clipboard
         .writeText(link)
         .then(() => {

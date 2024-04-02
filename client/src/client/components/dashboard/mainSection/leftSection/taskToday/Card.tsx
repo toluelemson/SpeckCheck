@@ -1,22 +1,19 @@
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import Image, { StaticImageData } from "next/image";
 import Checkbox from "@/src/client/shared/Checkbox";
 import {
-  GenericShareIos,
   GenericCheckRounded,
   Other3DotsHorizontal,
   GenericEdit,
   GenericDelete,
   FilesCopy,
 } from "@heathmont/moon-icons-tw";
-import Link from "next/link";
 import Fb from "@/src/client/components/svg/Fb";
 import Twitter from "@/src/client/components/svg/Twitter-x";
 import Whatsapp from "@/src/client/components/svg/Whatsapp";
-import Clipboard from "@/src/client/components/svg/Clipboard";
 import { useVisibilityControl } from "@/src/hooks/useVisibilityControl";
 import Modal from "@/src/client/shared/modal/Modal";
-import { Textarea } from "@heathmont/moon-core-tw";
 import { DeleteContent } from "../components/DeleteContent";
 import { EditContent } from "../components/EditContent";
 import useTheme from "@/src/context/themeContext/useTheme";
@@ -27,16 +24,16 @@ import {
 } from "react-share";
 import HandleCopyText from "@/src/utils/HandleCopyText";
 
+
 type Props = {
   id: string;
   title: string;
   inbox: string;
+  createdTime: string;
   pic: StaticImageData;
 };
 
-const Card = ({ id, inbox, title, pic }: Props) => {
-  // const [link, setLink] = useState(`chooseTemplate/${id}`);
-  // const [isCopy, setIsCopy] = useState(false);
+const Card = ({ id, inbox, title, createdTime, pic }: Props) => {
   const [isClick, setIsClick] = useState(false);
   const { isOpen, setIsOpen, handleClick } = useVisibilityControl();
   const {
@@ -45,10 +42,16 @@ const Card = ({ id, inbox, title, pic }: Props) => {
     handleClick: handleEditClick,
   } = useVisibilityControl();
   const { theme, colorTheme } = useTheme();
-
-  const { link, setLink, isCopy, setIsCopy, handleCopyCode } = HandleCopyText(
-    `http://localhost:3000/chooseTemplate/${id}`
+  const { isCopy, setIsCopy, handleCopyCode } = HandleCopyText(
+    `http://localhost:3000/sc/${id}`
   );
+
+  const [sharedMessage, setSharedMessage] = useState(
+    `"Hi, I'm on a mission to upgrade my "personal software". 🖥️ Could you share one thing you admire about me and one area for an update? Your insights are like gold! Thanks, " - From, Abu.`
+  );
+
+  const shareUrl = `http://localhost:3000/sc/${id}`;
+  const shareMessage = `"${sharedMessage}" click here:`;
 
   const handleLinkClick = () => {
     window.open(`chooseTemplate/${id}`, "_blank");
@@ -69,13 +72,16 @@ const Card = ({ id, inbox, title, pic }: Props) => {
         <div
           className={`flex items-center justify-between px-4 py-3 text-xs ${colorTheme.bgColor} rounded-xl font-bold shadow-lg`}
         >
-          <div className="flex space-x-1">
+          <div className="flex items-center  space-x-1">
             <Checkbox text="" />
             <p
               onClick={() => setIsClick(!isClick)}
-              className={`${colorTheme.textColor} underline cursor-pointer`}
+              className={`${colorTheme.textColor} underline cursor-pointer text-[14px]`}
             >
               {title}
+            </p>
+            <p className="text-san text-[11px] text-gray-600 font-san1">
+              {createdTime}
             </p>
           </div>
 
@@ -119,8 +125,11 @@ const Card = ({ id, inbox, title, pic }: Props) => {
         >
           <div className="flex items-center justify-between px-4">
             <div className="flex items-center space-x-2 rounded-full">
-              <p onClick={handleLinkClick} className="text-green-500 cursor-pointer underline">
-                {`http:localhost:3000/chooseTemplate/${id}`}
+              <p
+                onClick={handleLinkClick}
+                className="text-green-500 cursor-pointer underline"
+              >
+                {`http:localhost:3000/sc/${id}`}
               </p>
 
               {!isCopy ? (
@@ -184,19 +193,13 @@ const Card = ({ id, inbox, title, pic }: Props) => {
               Share this link:
             </p>
             <div className="flex space-x-4">
-              <FacebookShareButton url="http://localhost:5173/s/es4DS">
+              <FacebookShareButton url={shareUrl} quote={shareMessage}>
                 <Fb />
               </FacebookShareButton>
-              <TwitterShareButton
-                url="http://localhost:5173/s/es4DS"
-                title={title}
-              >
+              <TwitterShareButton url={shareUrl} title={shareMessage}>
                 <Twitter color={!theme ? "white" : "black"} />
               </TwitterShareButton>
-              <WhatsappShareButton
-                url="http://localhost:5173/s/es4DS"
-                title={title}
-              >
+              <WhatsappShareButton url={shareUrl} title={shareMessage}>
                 <Whatsapp />
               </WhatsappShareButton>
             </div>

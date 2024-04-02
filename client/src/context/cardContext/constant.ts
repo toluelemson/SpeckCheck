@@ -1,7 +1,7 @@
 export type SharedCardProps = {
   id: string;
   title: string;
-  text: string;
+  text: React.JSX.Element;
   percentage: number;
   progressColor: string;
   progressCount: string;
@@ -9,6 +9,7 @@ export type SharedCardProps = {
   inbox: string;
   tickCount: string;
   totalTickCount: string;
+  createdTime: string;
   card: (handleClick: () => void) => JSX.Element;
 };
 

@@ -6,25 +6,27 @@ import Checkbox from "@/src/client/shared/Checkbox";
 import useTheme from "@/src/context/themeContext/useTheme";
 import { PROJECTS_DATA } from "../../dashboard/mainSection/constant/data";
 import Link from "next/link";
+import useCard from "@/src/context/cardContext/useCard";
 
 const Inbox = () => {
   const { theme, colorTheme } = useTheme();
+  const { card } = useCard();
 
   return (
     <Layout>
       <div className="flex flex-col space-y-5 w-full">
-        {PROJECTS_DATA.map((value: any, index: number) => (
+        {card.map((value: any, index: number) => (
           <Link href={`/inbox/${value.id}`} key={index}>
             <div>
               <div
                 className={`flex items-center justify-between px-4 py-3 text-xs ${colorTheme.bgColor} rounded-xl font-bold shadow-lg`}
               >
-                <div className="flex space-x-1">
+                <div className="flex space-x-1 underline">
                   <Checkbox text="" />
                   <p className={colorTheme.textColor}>{value.title}</p>
                 </div>
 
-                <div className="flex space-x-8">
+                <div className="flex space-x-8 pr-3">
                   <div className="flex items-center bg-yellow-100 px-2 rounded-xl">
                     <p className="text-yellow-500 font-semibold">{`Inbox: ${value.inbox}`}</p>
                   </div>
@@ -46,11 +48,6 @@ const Inbox = () => {
                     />
                   </div>
 
-                  <Other3DotsHorizontal
-                    width={30}
-                    height={25}
-                    className={colorTheme.textColor}
-                  />
                 </div>
               </div>
             </div>

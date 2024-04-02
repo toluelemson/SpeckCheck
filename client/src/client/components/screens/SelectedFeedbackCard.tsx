@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import ReactDOMServer from "react-dom/server";
 import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Button, Loader, Textarea } from "@heathmont/moon-core-tw";
@@ -21,6 +22,10 @@ import { useMutation } from "@tanstack/react-query";
 import { sendMail } from "@/src/helper/apis/mail/sendMail";
 import apiMessageHelper from "@/src/helper/apiMessageHelper";
 import HandleCopyText from "@/src/utils/HandleCopyText";
+import ChooseTemplate from "./chooseTemplate/ChooseTemplate";
+import Link from "next/link";
+import ConditionalRenderer from "@/src/utils/ConditionalRenderer";
+import { getFormattedDateTime } from "@/src/utils/GetFormattedDateTime";
 
 const SelectedFeedbackCard = () => {
   const router = useRouter();
@@ -39,12 +44,20 @@ const SelectedFeedbackCard = () => {
     text: Yup.string().required("Text is required"),
   });
   const { mutateAsync, isPending } = useMutation({ mutationFn: sendMail });
-
-  const { isCopy, link, setIsCopy, handleCopyCode } = HandleCopyText(
-    `http://localhost:3000/chooseTemplate/${
-      selectedCard ? selectedCard.id : ""
-    }`
+  const { isCopy, setIsCopy, handleCopyCode } = HandleCopyText(
+    `http://localhost:3000/sc/${selectedCard ? selectedCard.id : ""}`
   );
+
+  const [sharedMessage, setSharedMessage] = useState(
+    `"Hi, I'm on a mission to upgrade my "personal software". 🖥️ Could you share one thing you admire about me and one area for an update? Your insights are like gold! Thanks, " - From, Abu.`
+  );
+
+  const shareUrl = `http://localhost:3000/sc/${
+    selectedCard && selectedCard.id
+  }`;
+  const shareMessage = `"${sharedMessage}" click here: ${shareUrl}`;
+
+  const formattedDateTime = getFormattedDateTime();
 
   useEffect(() => {
     if (isCopy) {
@@ -55,11 +68,22 @@ const SelectedFeedbackCard = () => {
     }
   }, [isCopy, setIsCopy]);
 
-
   return (
     <>
-      <PagesHeader />
-      <div className="flex items-center justify-center bg-gray-200 py-16">
+      <ConditionalRenderer content={<PagesHeader />} />
+      <div className="flex flex-col items-center justify-center bg-gray-200 py-16 space-y-6">
+        <ConditionalRenderer
+          sPContent={
+            <div className="flex flex-col items-center justify-center space-y-5 px-12 pt-12 w-7/12">
+              <Link href="#">
+                <p className="text-2xl font-bold text-green-500">SpeckCheck</p>
+              </Link>
+              <p className="text-center">
+                {`"Hi, I'm on a mission to upgrade my "personal software". 🖥️ Could you share one thing you admire about me and one area for an update? Your insights are like gold! Thanks, " - From, Abu.`}
+              </p>
+            </div>
+          }
+        />
         <div className="space-y-4 bg-white w-7/12">
           {selectedCard && selectedCard.card(handleClick)}
 
@@ -99,7 +123,7 @@ const SelectedFeedbackCard = () => {
                         <GenericLink height={30} width={30} className="ml-2" />
                         <div className="text-start px-2">
                           {truncateText(
-                            `http:localhost:3000/chooseTemplate/${query.id}`,
+                            `http:localhost:3000/sc/${query.id}`,
                             42
                           )}
                         </div>
@@ -126,20 +150,20 @@ const SelectedFeedbackCard = () => {
                         from: "abu@godwin.com",
                         to: values.email,
                         subject: selectedCard ? selectedCard.title : "",
-                        text: values.text,
+                        text: `${shareMessage}`,
                       };
 
-                      console.log(data);
                       // form submission
                       mutateAsync(data).then((res: any) => {
                         apiMessageHelper({
                           message: res?.message,
                           statusCode: res?.statusCode,
                           onSuccessCallback: () => {
-                            console.log(res);
                             setSubmitting(true);
-                            // handleSendFeedbackCard();
-                            handleSharedCard(selectedCard);
+                            handleSharedCard({
+                              ...selectedCard,
+                              createdTime: formattedDateTime,
+                            });
                             window.location.href = "/dashboard";
                           },
                           onFailureCallback() {
@@ -225,6 +249,18 @@ const SelectedFeedbackCard = () => {
             }
           />
         </div>
+
+        <ConditionalRenderer
+          sPContent={
+            <p className="text-gray-600">
+              Become part of{" "}
+              <Link href="/dashboard">
+                <span className="text-green-600 font-bold">SpeckCheck</span>
+              </Link>{" "}
+              and start sending anonymous messages.😎🎉🎉
+            </p>
+          }
+        />
       </div>
 
       {isSend && (

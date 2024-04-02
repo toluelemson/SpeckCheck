@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Textarea } from "@heathmont/moon-core-tw";
+import { Textarea } from "@heathmont/moon-core-tw";
 import { InputCard } from "../components/Input";
 import ButtonItem from "../components/Button";
 
@@ -113,6 +113,7 @@ const PersonalDataCard = ({ handleClick }: { handleClick?: () => void }) => {
         <ButtonItem handleClick={handleClick} />
       </div>
     </div>
+    
   );
 };
 

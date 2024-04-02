@@ -14,6 +14,7 @@
     "@heathmont/moon-themes-tw": "^10.13.5",
     "@tanstack/react-query": "^5.28.9",
     "formik": "^2.4.5",
+    "html-to-text": "^9.0.5",
     "next": "14.1.4",
     "react": "^18",
     "react-calendar": "^4.8.0",
@@ -23,10 +24,10 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@types/html-to-text": "^9.0.4",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-datepicker": "^6.2.0",
-    "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
     "cors": "^2.8.5",
     "date-fns": "^3.6.0",
