@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8090
 spring:
   profiles:
     active: dev
@@ -15,16 +15,25 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: false
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+
 jwt:
   access:
     expiration: 86400000
   refresh:
     expiration: 604800000
   secret_key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
-
-
-
-
 
 
 #logging:

@@ -18,4 +18,5 @@ public interface AppUserService {
     void revokeAllUserToken(AppUser appUser);
     void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException;
     String encodePassword(String password);
+    AppUser saveAppUser(AppUser appUser);
 }

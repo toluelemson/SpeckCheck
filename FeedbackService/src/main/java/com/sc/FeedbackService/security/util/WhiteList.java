@@ -5,9 +5,9 @@ import lombok.Getter;
 public class WhiteList {
     public static String[] freeAccess() {
         return new String[]{
-                "api/v1/user/register",
-                "api/v1/user/verify",
-                "api/v1/user/login",
+                "api/v*/auth/register",
+                "api/v*/auth/confirm",
+                "api/v*/auth/login",
         };
     }
 

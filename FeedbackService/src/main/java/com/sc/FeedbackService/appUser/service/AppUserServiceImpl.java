@@ -160,4 +160,9 @@ public class AppUserServiceImpl implements AppUserService{
     public String encodePassword(String password) {
         return passwordEncoder.encode(password);
     }
+
+    @Override
+    public AppUser saveAppUser(AppUser appUser) {
+        return appUserRepository.save(appUser);
+    }
 }

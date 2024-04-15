@@ -1,16 +1,11 @@
 package com.sc.FeedbackService.user.controller;
 
-import com.sc.FeedbackService.user.dto.request.RegisterUserRequest;
-import com.sc.FeedbackService.user.dto.response.RegisterUserResponse;
+import com.sc.FeedbackService.user.dto.request.UpdateUserRequest;
 import com.sc.FeedbackService.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/user")
@@ -18,9 +13,24 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("register")
-    public ResponseEntity<?> register(@Valid @RequestBody RegisterUserRequest registerUserRequest){
-        RegisterUserResponse response = userService.register(registerUserRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    @PostMapping("get/{id}")
+    public ResponseEntity<?> getUserById(@PathVariable Long id){
+        return ResponseEntity.ok(userService.getUserById(id));
+    }
+
+    @PostMapping("get-by-email")
+    public ResponseEntity<?> getUserByEmail(@RequestParam String email){
+        return ResponseEntity.ok(userService.getUserByEmail(email));
+    }
+
+    @PutMapping("edit/{id}")
+    public ResponseEntity<?> updateUser(@Valid @RequestBody UpdateUserRequest request, @PathVariable Long id){
+        return ResponseEntity.ok(userService.updateUserById(request, id));
+    }
+
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id){
+        userService.deleteUserById(id);
+        return ResponseEntity.accepted().build();
     }
 }
