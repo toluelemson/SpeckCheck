@@ -6,6 +6,7 @@ import com.sc.FeedbackService.appUser.dto.response.ChangePasswordResponse;
 import com.sc.FeedbackService.appUser.dto.response.JwtResponse;
 import com.sc.FeedbackService.appUser.model.AppUser;
 import com.sc.FeedbackService.appUser.repository.AppUserRepository;
+import com.sc.FeedbackService.exception.FeedbackServiceException;
 import com.sc.FeedbackService.security.SecureUser;
 import com.sc.FeedbackService.security.services.JwtService;
 import com.sc.FeedbackService.security.token.Token;
@@ -101,12 +102,19 @@ public class AppUserServiceImpl implements AppUserService{
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(email, password));
         String userEmail = authentication.getName();
-        return getAppUserByEmail(userEmail);
+        AppUser appUser = getAppUserByEmail(userEmail);
+        checkIfAppUserIsEnabled(appUser);
+        return appUser;
     }
 
     private AppUser getAppUserByEmail(String email){
         return appUserRepository.findByEmail(email).orElseThrow(
                 ()-> new UsernameNotFoundException("User not found"));
+    }
+
+    private void checkIfAppUserIsEnabled(AppUser appUser) {
+        if(!appUser.getIsEnabled())
+            throw new FeedbackServiceException("User is not activated");
     }
 
     @Override

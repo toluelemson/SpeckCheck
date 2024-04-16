@@ -27,9 +27,7 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
         return generatedToken;
     }
     private static String generateToken(){
-        String prefix = "http://localhost:8090/api/auth/confirm?token=";
-        String random =  UUID.randomUUID().toString();
-        return "%s%s".formatted(prefix, random);
+        return UUID.randomUUID().toString();
     }
 
     public static void main(String[] args) {

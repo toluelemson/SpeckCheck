@@ -57,7 +57,7 @@ public class JwtService {
                 .setClaims(claims)
                 .setSubject(email)
                 .setExpiration(expiredAt)
-                .signWith(getSignInKey(), SignatureAlgorithm.HS512)
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 

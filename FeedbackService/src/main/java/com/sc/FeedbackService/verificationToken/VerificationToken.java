@@ -21,5 +21,5 @@ public class VerificationToken {
     @Column(unique = true)
     private String token;
     private final LocalDateTime createdAt = LocalDateTime.now();
-    private final LocalDateTime expiredAt = createdAt.plusMinutes(30L);
+    private final LocalDateTime expiredAt = createdAt.plusMinutes(15L);
 }

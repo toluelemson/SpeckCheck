@@ -52,6 +52,7 @@ public class UserServiceImpl implements UserService{
     }
     private static UserResponse getUserResponse(User user){
         return UserResponse.builder()
+                .userId(user.getId())
                 .firstName(user.getAppUser().getFirstName())
                 .lastName(user.getAppUser().getLastName())
                 .email(user.getAppUser().getEmail())

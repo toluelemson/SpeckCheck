@@ -79,7 +79,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public AuthenticationResponse authentication(AuthenticationRequest request) {
+    public AuthenticationResponse authenticate(AuthenticationRequest request) {
         AppUser appUser = appUserService.authenticate(request.getEmail(), request.getPassword());
         appUserService.revokeAllUserToken(appUser);
         JwtResponse jwtResponse = appUserService.generateJwtToken(appUser);
@@ -89,8 +89,9 @@ public class AuthServiceImpl implements AuthService {
                 .build();
     }
 
-    private  void sendVerificationLink(AppUser appUser, String link) {
+    private  void sendVerificationLink(AppUser appUser, String token) {
         String subject = "Account activation";
+        String link = "http://localhost:8090/api/v1/auth/confirm?token=%s".formatted(token);
         String mailContent = mailService.buildVerificationMail(appUser.getFirstName(), link);
         mailService.sendMail(appUser.getEmail(), subject, mailContent);
     }

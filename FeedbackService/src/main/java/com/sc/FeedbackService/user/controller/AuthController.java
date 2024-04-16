@@ -28,6 +28,11 @@ public class AuthController {
     }
     @PostMapping("login")
     public ResponseEntity<?> login(@Valid @RequestBody AuthenticationRequest authenticationRequest){
-        return ResponseEntity.ok(authService.authentication(authenticationRequest));
+        return ResponseEntity.ok(authService.authenticate(authenticationRequest));
+    }
+
+    @PostMapping("logout")
+    public ResponseEntity<?> logout(){
+        return ResponseEntity.ok("User logged out successfully");
     }
 }

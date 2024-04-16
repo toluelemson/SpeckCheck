@@ -9,5 +9,5 @@ import com.sc.FeedbackService.user.dto.response.RegisterUserResponse;
 public interface AuthService {
     RegisterUserResponse register(RegisterUserRequest request);
     ConfirmationResponse confirmToken(String token, String email);
-    AuthenticationResponse authentication(AuthenticationRequest request);
+    AuthenticationResponse authenticate(AuthenticationRequest request);
 }
