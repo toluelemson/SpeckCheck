@@ -22,6 +22,8 @@ public class AppUser {
     private String password;
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
+    @Enumerated(EnumType.STRING)
+    private AuthProvider authProvider;
     private Boolean isLocked = false;
     private Boolean isEnabled = false;
     private LocalDateTime createdAt = LocalDateTime.now();

@@ -1,5 +1,7 @@
 package com.sc.FeedbackService.user.service;
 
+import com.sc.FeedbackService.appUser.dto.request.ChangePasswordRequest;
+import com.sc.FeedbackService.appUser.dto.response.ChangePasswordResponse;
 import com.sc.FeedbackService.appUser.dto.response.JwtResponse;
 import com.sc.FeedbackService.appUser.model.AppUser;
 import com.sc.FeedbackService.appUser.model.UserRole;
@@ -19,6 +21,8 @@ import com.sc.FeedbackService.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.security.Principal;
 
 @Service
 @RequiredArgsConstructor
@@ -87,6 +91,11 @@ public class AuthServiceImpl implements AuthService {
                 .jwtResponse(jwtResponse)
                 .message("Authentication successful")
                 .build();
+    }
+
+    @Override
+    public ChangePasswordResponse changePassword(ChangePasswordRequest changePasswordRequest, Principal securedUser) {
+        return appUserService.changePassword(changePasswordRequest, securedUser);
     }
 
     private  void sendVerificationLink(AppUser appUser, String token) {

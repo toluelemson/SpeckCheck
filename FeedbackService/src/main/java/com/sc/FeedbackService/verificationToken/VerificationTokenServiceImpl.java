@@ -3,6 +3,7 @@ package com.sc.FeedbackService.verificationToken;
 import com.sc.FeedbackService.appUser.model.AppUser;
 import com.sc.FeedbackService.exception.VerificationException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class VerificationTokenServiceImpl implements VerificationTokenService {
     private final VerificationTokenRepository verificationTokenRepository;
+
 
     @Override
     public String generateVerificationToken(AppUser appUser) {
@@ -30,9 +32,9 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
         return UUID.randomUUID().toString();
     }
 
-    public static void main(String[] args) {
-        System.out.println(generateToken());
-    }
+//    public static void main(String[] args) {
+//        System.out.println(generateToken());
+//    }
 
     @Override
     public VerificationToken validateVerificationToken(String token, String email) {

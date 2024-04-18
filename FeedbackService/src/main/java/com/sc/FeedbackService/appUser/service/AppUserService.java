@@ -13,6 +13,7 @@ import java.security.Principal;
 public interface AppUserService {
     ChangePasswordResponse changePassword(ChangePasswordRequest changePasswordRequest, Principal secureUser);
     JwtResponse generateJwtToken(AppUser appUser);
+    AppUser getUserByEmail(String email);
     AppUser authenticate(String email, String password);
     AppUser getAppUser(Principal secureUser);
     void revokeAllUserToken(AppUser appUser);

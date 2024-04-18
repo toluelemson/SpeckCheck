@@ -33,4 +33,5 @@ public class UserController {
         userService.deleteUserById(id);
         return ResponseEntity.accepted().build();
     }
+
 }

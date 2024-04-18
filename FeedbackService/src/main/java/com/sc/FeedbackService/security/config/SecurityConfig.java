@@ -1,9 +1,12 @@
 package com.sc.FeedbackService.security.config;
 
 import com.sc.FeedbackService.security.AppAuthorizationFilter;
+import com.sc.FeedbackService.security.Oauth2LoginSuccessHandler;
 import com.sc.FeedbackService.security.util.AppAuthenticationEntryPoint;
 import com.sc.FeedbackService.security.util.WhiteList;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -18,23 +21,33 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 import static org.springframework.http.HttpMethod.*;
 
 @Configuration
 @EnableWebSecurity
-@AllArgsConstructor
+@RequiredArgsConstructor
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
     private final AppAuthorizationFilter authorizationFilter;
     private final AppAuthenticationEntryPoint authenticationEntryPoint;
+    private final Oauth2LoginSuccessHandler oauth2LoginSuccessHandler;
     private final LogoutHandler logoutHandler;
+
+    @Value("${frontend.url}")
+    private String frontendUrl;
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity)throws Exception{
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(Customizer.withDefaults())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .exceptionHandling(exceptionHandling ->
                         exceptionHandling
                                 .authenticationEntryPoint(authenticationEntryPoint))
@@ -49,6 +62,11 @@ public class SecurityConfig {
                         .permitAll()
                         .anyRequest()
                         .authenticated())
+                .oauth2Login(oauth2 -> {
+//                    oauth2.loginPage("/login");
+                    oauth2.loginProcessingUrl("api/v*/*/oauth_login");
+                    oauth2.successHandler(oauth2LoginSuccessHandler);
+                })
                 .addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout(logout ->
                         logout.logoutUrl("api/v*/*/logout")
@@ -61,5 +79,17 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    protected CorsConfigurationSource corsConfigurationSource(){
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of(frontendUrl));
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
+        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", configuration);
+        return urlBasedCorsConfigurationSource;
     }
 }

@@ -8,6 +8,7 @@ import com.sc.FeedbackService.appUser.model.AppUser;
 import com.sc.FeedbackService.appUser.repository.AppUserRepository;
 import com.sc.FeedbackService.exception.FeedbackServiceException;
 import com.sc.FeedbackService.security.SecureUser;
+import com.sc.FeedbackService.security.services.AppUserDetailsService;
 import com.sc.FeedbackService.security.services.JwtService;
 import com.sc.FeedbackService.security.token.Token;
 import com.sc.FeedbackService.security.token.TokenRepository;
@@ -70,6 +71,12 @@ public class AppUserServiceImpl implements AppUserService{
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
+    }
+
+    @Override
+    public AppUser getUserByEmail(String email) {
+        return appUserRepository.findByEmail(email).orElseThrow(
+                ()-> new UsernameNotFoundException("User with the provided email not found"));
     }
 
     private static HashMap<String, Object> getClaims(AppUser appUser) {
