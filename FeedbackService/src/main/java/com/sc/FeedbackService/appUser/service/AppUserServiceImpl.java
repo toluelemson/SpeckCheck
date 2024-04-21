@@ -39,10 +39,11 @@ public class AppUserServiceImpl implements AppUserService{
     private final TokenRepository tokenRepository;
 
     @Override
-    public ChangePasswordResponse changePassword(ChangePasswordRequest request, Principal secureUser) {
-        AppUser appUser = getAppUser(secureUser);
+    public ChangePasswordResponse changePassword(ChangePasswordRequest request, Principal connectedUser) {
+        SecureUser securedUser = (SecureUser) ((UsernamePasswordAuthenticationToken)connectedUser).getPrincipal();
+        AppUser appUser = securedUser.getAppUser();
         checkIfCurrentPasswordIsCorrect(request.getCurrentPassword(), appUser.getPassword());
-        checkIfPasswordsAreTheSame(request.getNewPassword(), request.getConfirmPassword());
+        checkIfTwoPasswordAreTheSame(request.getNewPassword(), request.getConfirmPassword());
         appUser.setPassword(passwordEncoder.encode(request.getNewPassword()));
         appUserRepository.save(appUser);
         return ChangePasswordResponse.builder()
@@ -52,10 +53,10 @@ public class AppUserServiceImpl implements AppUserService{
 
     private void checkIfCurrentPasswordIsCorrect(String currentPassword, String appUserPassword) {
         if(!passwordEncoder.matches(currentPassword, appUserPassword))
-            throw new BadCredentialsException("Wrong password");
+            throw new BadCredentialsException("Wrong current password");
     }
 
-    private void checkIfPasswordsAreTheSame(String newPassword, String confirmPassword){
+    private void checkIfTwoPasswordAreTheSame(String newPassword, String confirmPassword){
         if(!newPassword.equals(confirmPassword))
             throw new BadCredentialsException("Password are not the same");
     }

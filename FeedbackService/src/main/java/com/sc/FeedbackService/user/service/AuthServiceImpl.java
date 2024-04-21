@@ -10,8 +10,10 @@ import com.sc.FeedbackService.exception.AlreadyExistsException;
 import com.sc.FeedbackService.exception.FeedbackServiceException;
 import com.sc.FeedbackService.mail.MailService;
 import com.sc.FeedbackService.user.dto.request.AuthenticationRequest;
+import com.sc.FeedbackService.user.dto.request.ResetPasswordRequest;
 import com.sc.FeedbackService.user.dto.response.AuthenticationResponse;
 import com.sc.FeedbackService.user.dto.response.ConfirmationResponse;
+import com.sc.FeedbackService.user.dto.response.ResetPasswordResponse;
 import com.sc.FeedbackService.verificationToken.VerificationToken;
 import com.sc.FeedbackService.verificationToken.VerificationTokenService;
 import com.sc.FeedbackService.user.dto.request.RegisterUserRequest;
@@ -98,6 +100,23 @@ public class AuthServiceImpl implements AuthService {
         return appUserService.changePassword(changePasswordRequest, securedUser);
     }
 
+    @Override
+    public void sendResetPasswordMail(String email) {
+        AppUser appUser = appUserService.getUserByEmail(email);
+        String subject = "Reset Password";
+        String token = verificationTokenService.generateVerificationToken(appUser);
+        String link = "http://localhost:8090/api/v1/auth/reset-password?token=%s".formatted(token);
+        String mailContent = mailService.buildResetPasswordMail(appUser.getFirstName(), link);
+        mailService.sendMail(appUser.getEmail(), subject, mailContent);
+    }
+
+    @Override
+    public ResetPasswordResponse resetPassword(ResetPasswordRequest request, String token) {
+        VerificationToken verificationToken =
+                verificationTokenService.validateVerificationToken();
+        return null;
+    }
+
     private  void sendVerificationLink(AppUser appUser, String token) {
         String subject = "Account activation";
         String link = "http://localhost:8090/api/v1/auth/confirm?token=%s".formatted(token);
@@ -105,3 +124,17 @@ public class AuthServiceImpl implements AuthService {
         mailService.sendMail(appUser.getEmail(), subject, mailContent);
     }
 }
+//    @Override
+//    @Transactional
+//    public String resetPassword(ResetPasswordRequest resetPasswordRequest) {
+//        OtpEntity otpEntity = otpService.validateReceivedOtp(resetPasswordRequest.getOtp());
+//        Customer customer = otpEntity.getCustomer();
+//        AppUser appUser = customer.getAppUser();
+//        String encodedPassword = passwordEncoder.encode(resetPasswordRequest.getNewPassword());
+//        appUser.setPassword(encodedPassword);
+//        if(!resetPasswordRequest.getNewPassword().equals(resetPasswordRequest.getConfirmPassword()))
+//            throw new InvalidDetailsException("Password doesn't match");
+//        customerRepository.save(customer);
+//        otpService.deleteToken(otpEntity);
+//        return "Password reset successful";
+//    }
